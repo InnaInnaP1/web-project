@@ -1,118 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
-  <body>
-    <main>
-      <h1>CatPhotoApp</h1>
-      <section>
-        <h2>Cat Photos</h2>
-        <p>
-          Everyone loves
-          <a
-            href="https://cdn.freecodecamp.org/curriculum/cat-photo-app/running-cats.jpg"
-            >cute cats</a
-          >
-          online!
-        </p>
-        <p>
-          See more
-          <a target="_blank" href="https://freecatphotoapp.com">cat photos</a>
-          in our gallery.
-        </p>
-        <a href="https://freecatphotoapp.com"
-          ><img
-            src="https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg"
-            alt="A cute orange cat lying on its back."
-        /></a>
-      </section>
-      <section>
-        <h2>Cat Lists</h2>
-        <h3>Things cats love:</h3>
-        <ul>
-          <li>catnip</li>
-          <li>laser pointers</li>
-          <li>lasagna</li>
-        </ul>
-        <figure>
-          <img
-            src="https://cdn.freecodecamp.org/curriculum/cat-photo-app/lasagna.jpg"
-            alt="A slice of lasagna on a plate."
-          />
-          <figcaption>Cats <em>love</em> lasagna.</figcaption>
-        </figure>
-        <h3>Top 3 things cats hate:</h3>
-        <ol>
-          <li>flea treatment</li>
-          <li>thunder</li>
-          <li>other cats</li>
-        </ol>
-        <figure>
-          <img
-            src="https://cdn.freecodecamp.org/curriculum/cat-photo-app/cats.jpg"
-            alt="Five cats looking around a field."
-          />
-          <figcaption>Cats <strong>hate</strong> other cats.</figcaption>
-        </figure>
-      </section>
-      <section>
-        <h2>Cat Form</h2>
-        <form action="https://freecatphotoapp.com/submit-cat-photo">
-          <fieldset>
-            <legend>Is your cat an indoor or outdoor cat?</legend>
-            <label
-              ><input
-                id="indoor"
-                type="radio"
-                name="indoor-outdoor"
-                value="indoor"
-                checked
-              />
-              Indoor</label
-            >
-            <label
-              ><input
-                id="outdoor"
-                type="radio"
-                name="indoor-outdoor"
-                value="outdoor"
-              />
-              Outdoor</label
-            >
-          </fieldset>
-          <fieldset>
-            <legend>What's your cat's personality?</legend>
-            <input
-              id="loving"
-              type="checkbox"
-              name="personality"
-              value="loving"
-              checked
-            />
-            <label for="loving">Loving</label>
-            <input id="lazy" type="checkbox" name="personality" value="lazy" />
-            <label for="lazy">Lazy</label>
-            <input
-              id="energetic"
-              type="checkbox"
-              name="personality"
-              value="energetic"
-            />
-            <label for="energetic">Energetic</label>
-          </fieldset>
-          <input
-            type="text"
-            name="catphotourl"
-            placeholder="cat photo URL"
-            required
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </section>
-    </main>
-    <footer>
-      <p>
-        No Copyright -
-        <a href="https://www.freecodecamp.org">freeCodeCamp.org</a>
-      </p>
-    </footer>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Mole</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+            min-height: 100vh;
+        }
+        
+        .hole {
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            background: #654321;
+            box-shadow: inset 0 10px 10px rgba(0,0,0,0.3);
+            transition: all 0.1s;
+        }
+        
+        .mole {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            left: 15%;
+            bottom: -100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            transition: bottom 0.2s;
+        }
+        
+        .hole.active .mole {
+            bottom: 0;
+        }
+        
+        .hole.bonked .mole {
+            bottom: -100%;
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            50% { transform: translateX(5px) rotate(5deg); }
+            75% { transform: translateX(-5px) rotate(-5deg); }
+            100% { transform: translateX(0); }
+        }
+        
+        .shake {
+            animation: shake 0.3s;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container mx-auto max-w-3xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-2">Catch the Mole!</h1>
+            <p class="text-white text-lg">Click on the moles as they appear to score points!</p>
+        </header>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <div class="text-2xl font-bold">Score: <span id="score">0</span></div>
+                    <div class="text-lg">Time: <span id="timer">30</span>s</div>
+                </div>
+                <div>
+                    <button id="start-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg text-lg">
+                        Start Game
+                    </button>
+                </div>
+            </div>
+            
+            <div id="game-board" class="grid grid-cols-3 gap-4">
+                <!-- Holes will be generated here -->
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">High Scores</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="py-2 px-4 text-left">Rank</th>
+                            <th class="py-2 px-4 text-left">Score</th>
+                            <th class="py-2 px-4 text-left">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="high-scores">
+                        <tr>
+                            <td class="py-2 px-4" colspan="3">No high scores yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Game Over!</h2>
+            <p class="text-lg mb-2">Your score: <span id="final-score">0</span></p>
+            <p id="new-high-score" class="text-green-500 font-bold text-lg mb-4 hidden">New High Score!</p>
+            <div class="flex justify-end">
+                <button id="play-again-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Classes
+        class Mole {
+            #element;
+            #isActive = false;
+            #holeElement;
+            
+            constructor(holeElement, index) {
+                this.#holeElement = holeElement;
+                
+                // Create mole element
+                this.#element = document.createElement('div');
+                this.#element.className = 'mole';
+                this.#element.style.backgroundImage = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23855E42'/%3E%3Ccircle cx='35' cy='40' r='5' fill='%23000'/%3E%3Ccircle cx='65' cy='40' r='5' fill='%23000'/%3E%3Cpath d='M40 65 Q50 75 60 65' stroke='%23000' stroke-width='3' fill='none'/%3E%3Cellipse cx='50' cy='30' rx='10' ry='5' fill='%23000'/%3E%3C/svg%3E")`;
+                
+                // Add mole to hole
+                holeElement.appendChild(this.#element);
+                
+                // Add click event
+                this.#holeElement.addEventListener('click', () => this.bonk());
+            }
+            
+            get isActive() {
+                return this.#isActive;
+            }
+            
+            show() {
+                this.#isActive = true;
+                this.#holeElement.classList.add('active');
+            }
+            
+            hide() {
+                this.#isActive = false;
+                this.#holeElement.classList.remove('active');
+                this.#holeElement.classList.remove('bonked');
+            }
+            
+            bonk() {
+                if (this.#isActive) {
+                    this.#isActive = false;
+                    this.#holeElement.classList.add('bonked');
+                    this.#holeElement.classList.add('shake');
+                    
+                    // Remove shake animation after it completes
+                    setTimeout(() => {
+                        this.#holeElement.classList.remove('shake');
+                    }, 300);
+                    
+                    // Dispatch custom event
+                    const event = new CustomEvent('molebonk', { 
+                        bubbles: true 
+                    });
+                    this.#holeElement.dispatchEvent(event);
+                    
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        class MoleGame {
+            #moles = [];
+            #score = 0;
+            #timeLeft = 30;
+            #gameActive = false;
+            #timerInterval;
+            #popUpInterval;
+            #gameBoard;
+            #scoreElement;
+            #timerElement;
+            #startButton;
+            #difficulty = 1000; // Time between moles in ms
+            
+            constructor() {
+                this.#gameBoard = document.getElementById('game-board');
+                this.#scoreElement = document.getElementById('score');
+                this.#timerElement = document.getElementById('timer');
+                this.#startButton = document.getElementById('start-btn');
+                
+                // Create holes and moles
+                this.#createBoard();
+                
+                // Set up event listeners
+                this.#startButton.addEventListener('click', () => this.startGame());
+                document.getElementById('play-again-btn').addEventListener('click', () => {
+                    document.getElementById('game-over-modal').classList.add('hidden');
+                    this.startGame();
+                });
+                
+                document.addEventListener('molebonk', () => {
+                    this.#score++;
+                    this.#scoreElement.textContent = this.#score;
+                    
+                    // Increase difficulty as score increases
+                    if (this.#score % 5 === 0 && this.#difficulty > 400) {
+                        this.#difficulty -= 50;
+                    }
+                });
+                
+                // Load high scores
+                this.#loadHighScores();
+            }
+            
+            #createBoard() {
+                // Clear existing board
+                this.#gameBoard.innerHTML = '';
+                this.#moles = [];
+                
+                // Create 9 holes (3x3 grid)
+                for (let i = 0; i < 9; i++) {
+                    const hole = document.createElement('div');
+                    hole.className = 'hole w-full pt-[100%]'; // Square aspect ratio
+                    
+                    this.#gameBoard.appendChild(hole);
+                    
+                    // Create mole in hole
+                    const mole = new Mole(hole, i);
+                    this.#moles.push(mole);
+                }
+            }
+            
+            startGame() {
+                // Reset game state
+                this.#score = 0;
+                this.#timeLeft = 30;
+                this.#gameActive = true;
+                this.#difficulty = 1000;
+                
+                // Update UI
+                this.#scoreElement.textContent = '0';
+                this.#timerElement.textContent = '30';
+                this.#startButton.disabled = true;
+                this.#startButton.classList.add('bg-gray-400');
+                this.#startButton.classList.remove('bg-green-500', 'hover:bg-green-600');
+                
+                // Start timer
+                this.#timerInterval = setInterval(() => {
+                    this.#timeLeft--;
+                    this.#timerElement.textContent = this.#timeLeft;
+                    
+                    if (this.#timeLeft <= 0) {
+                        this.endGame();
+                    }
+                }, 1000);
+                
+                // Start popping up moles
+                this.#popUpMole();
+            }
+            
+            #popUpMole() {
+                if (!this.#gameActive) return;
+                
+                // Hide all moles
+                this.#moles.forEach(mole => mole.hide());
+                
+                // Select random mole
+                const randomIndex = Math.floor(Math.random() * this.#moles.length);
+                const selectedMole = this.#moles[randomIndex];
+                
+                // Show mole
+                selectedMole.show();
+                
+                // Set timeout for hiding mole
+                const showTime = Math.max(800, 1500 - (this.#score * 10)); // Moles show for less time as score increases
+                setTimeout(() => {
+                    if (selectedMole.isActive) {
+                        selectedMole.hide();
+                    }
+                }, showTime);
+                
+                // Schedule next mole
+                this.#popUpInterval = setTimeout(() => {
+                    this.#popUpMole();
+                }, this.#difficulty);
+            }
+            
+            endGame() {
+                this.#gameActive = false;
+                clearInterval(this.#timerInterval);
+                clearTimeout(this.#popUpInterval);
+                
+                // Hide all moles
+                this.#moles.forEach(mole => mole.hide());
+                
+                // Re-enable start button
+                this.#startButton.disabled = false;
+                this.#startButton.classList.remove('bg-gray-400');
+                this.#startButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                
+                // Save score
+                this.#saveScore(this.#score);
+                
+                // Show game over modal
+                document.getElementById('final-score').textContent = this.#score;
+                document.getElementById('game-over-modal').classList.remove('hidden');
+            }
+            
+            #saveScore(score) {
+                try {
+                    // Get existing scores from localStorage
+                    let scores = JSON.parse(localStorage.getItem('moleGameScores')) || [];
+                    
+                    // Add new score
+                    const newScore = {
+                        score: score,
+                        date: new Date().toISOString()
+                    };
+                    scores.push(newScore);
+                    
+                    // Sort by score (descending)
+                    scores.sort((a, b) => b.score - a.score);
+                    
+                    // Keep only top 10 scores
+                    scores = scores.slice(0, 10);
+                    
+                    // Check if new score is a high score
+                    const isHighScore = scores.findIndex(s => s.score === score && s.date === newScore.date) < 3;
+                    document.getElementById('new-high-score').classList.toggle('hidden', !isHighScore);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('moleGameScores', JSON.stringify(scores));
+                    
+                    // Update displayed scores
+                    this.#loadHighScores();
+                    
+                } catch (error) {
+                    console.error('Error saving score:', error);
+                }
+            }
+            
+            #loadHighScores() {
+                try {
+                    const scores = JSON.parse(localStorage.getItem('moleGameScores')) || [];
+                    const scoresContainer = document.getElementById('high-scores');
+                    
+                    if (scores.length === 0) {
+                        scoresContainer.innerHTML = `
+                            <tr>
+                                <td class="py-2 px-4" colspan="3">No high scores yet</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    scoresContainer.innerHTML = scores.map((score, index) => `
+                        <tr class="${index < 3 ? 'font-bold' : ''}">
+                            <td class="py-2 px-4">${index + 1}</td>
+                            <td class="py-2 px-4">${score.score}</td>
+                            <td class="py-2 px-4">${new Date(score.date).toLocaleDateString()}</td>
+                        </tr>
+                    `).join('');
+                    
+                } catch (error) {
+                    console.error('Error loading high scores:', error);
+                }
+            }
+        }
+
+        // Initialize game when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const game = new MoleGame();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94bae051f597ebbc',t:'MTc0OTI0NDAxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
