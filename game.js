@@ -60,16 +60,16 @@ class MoleGame {
   #difficulty = 1000;
 
   constructor() {
-    this.#gameBoard = document.getElementById('game-board');
+    this.#gameBoard = document.getElementById('board');
     this.#scoreElement = document.getElementById('score');
     this.#timerElement = document.getElementById('timer');
-    this.#startButton = document.getElementById('start-btn');
+    this.#startButton = document.getElementById('start');
 
     this.#createBoard();
 
     this.#startButton.addEventListener('click', () => this.startGame());
-    document.getElementById('play-again-btn').addEventListener('click', () => {
-      document.getElementById('game-over-modal').classList.add('hidden');
+    document.getElementById('restart').addEventListener('click', () => {
+      document.getElementById('modal').classList.add('hidden');
       this.startGame();
     });
 
@@ -158,8 +158,8 @@ class MoleGame {
 
     this.#saveScore(this.#score);
 
-    document.getElementById('final-score').textContent = this.#score;
-    document.getElementById('game-over-modal').classList.remove('hidden');
+    document.getElementById('result').textContent = this.#score;
+    document.getElementById('modal').classList.remove('hidden');
   }
 
   #saveScore(score) {
@@ -177,9 +177,7 @@ class MoleGame {
       const isHighScore = scores.findIndex(
         (s) => s.score === score && s.date === newScore.date
       ) < 3;
-      document
-        .getElementById('new-high-score')
-        .classList.toggle('hidden', !isHighScore);
+      document.getElementById('new-high').classList.toggle('hidden', !isHighScore);
 
       localStorage.setItem('moleGameScores', JSON.stringify(scores));
       this.#loadHighScores();
@@ -191,7 +189,7 @@ class MoleGame {
   #loadHighScores() {
     try {
       const scores = JSON.parse(localStorage.getItem('moleGameScores')) || [];
-      const scoresContainer = document.getElementById('high-scores');
+      const scoresContainer = document.getElementById('scores');
 
       if (scores.length === 0) {
         scoresContainer.innerHTML = `

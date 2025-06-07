@@ -5,54 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catch the smiling face!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="p-4 font-nunito bg-gradient-to-br from-blue-200 to-indigo-300 min-h-screen">
+  <body class="page">
     <div class="container mx-auto max-w-3xl">
-      <header class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-white mb-2">Catch the smiling face!</h1>
-        <p class="text-white text-lg">Click on the moles as they appear to score points!</p>
+      <header class="section-title">
+        <h1 class="game-title">Catch the smiling face!</h1>
+        <p class="game-subtitle">Click on the moles as they appear to score points!</p>
       </header>
 
-      <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <div class="flex justify-between items-center mb-6">
+      <div class="card mb-6">
+        <div class="scoreboard">
           <div>
-            <div class="text-2xl font-bold">Score: <span id="score">0</span></div>
-            <div class="text-lg">Time: <span id="timer">30</span>s</div>
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="time">Time: <span id="timer">30</span>s</div>
           </div>
           <div>
-            <button
-              id="start-btn"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg text-lg"
-            >
-              Start Game
-            </button>
+            <button id="start" class="btn-start">Start Game</button>
           </div>
         </div>
 
-        <div id="game-board" class="grid grid-cols-3 gap-4">
+        <div id="board" class="game-board">
           <!-- Holes will be generated here -->
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-bold mb-4">High Scores</h2>
+      <div class="card">
+        <h2 class="section-heading">High Scores</h2>
         <div class="overflow-x-auto">
           <table class="min-w-full">
             <thead>
               <tr class="bg-gray-100">
-                <th class="py-2 px-4 text-left">Rank</th>
-                <th class="py-2 px-4 text-left">Score</th>
-                <th class="py-2 px-4 text-left">Date</th>
+                <th class="table-cell">Rank</th>
+                <th class="table-cell">Score</th>
+                <th class="table-cell">Date</th>
               </tr>
             </thead>
-            <tbody id="high-scores">
+            <tbody id="scores">
               <tr>
-                <td class="py-2 px-4" colspan="3">No high scores yet</td>
+                <td class="table-cell" colspan="3">No high scores yet</td>
               </tr>
             </tbody>
           </table>
@@ -61,26 +56,13 @@
     </div>
 
     <!-- Game Over Modal -->
-    <div
-      id="game-over-modal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
-    >
-      <div class="bg-white rounded-lg p-8 max-w-md w-full">
-        <h2 class="text-2xl font-bold mb-4">Game Over!</h2>
-        <p class="text-lg mb-2">Your score: <span id="final-score">0</span></p>
-        <p
-          id="new-high-score"
-          class="text-green-500 font-bold text-lg mb-4 hidden"
-        >
-          New High Score!
-        </p>
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 class="section-heading mb-4">Game Over!</h2>
+        <p class="text-lg mb-2">Your score: <span id="result">0</span></p>
+        <p id="new-high" class="new-high hidden">New High Score!</p>
         <div class="flex justify-end">
-          <button
-            id="play-again-btn"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Play Again
-          </button>
+          <button id="restart" class="btn-restart">Play Again</button>
         </div>
       </div>
     </div>
