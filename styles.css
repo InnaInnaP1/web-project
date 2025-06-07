@@ -1,0 +1,54 @@
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+.hole {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #654321;
+  box-shadow: inset 0 10px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.1s;
+}
+
+.mole {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  left: 15%;
+  bottom: -100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  transition: bottom 0.2s;
+}
+
+.hole.active .mole {
+  bottom: 0;
+}
+
+.hole.bonked .mole {
+  bottom: -100%;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(5px) rotate(5deg);
+  }
+  75% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shake {
+  animation: shake 0.3s;
+}
