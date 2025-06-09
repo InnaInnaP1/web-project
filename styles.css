@@ -1,14 +1,101 @@
 body {
   font-family: 'Nunito', sans-serif;
+  margin: 0;
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
 }
 
+.container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.game-title {
+  font-weight: 700;
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-subtitle {
+  font-weight: 400;
+  font-size: 1.125rem;
+  color: #555;
+}
+
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.score-time-group > div {
+  margin-right: 1.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.score, .time {
+  margin-bottom: 0.25rem;
+}
+
+.btn-start, .btn-restart {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-start:hover, .btn-restart:hover {
+  background-color: #45a049;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-items: center;
+}
+
+/* Hole styles */
 .hole {
   position: relative;
-  overflow: hidden;
-  border-radius: 50%;
+  width: 120px;
+  height: 120px;
   background: #654321;
+  border-radius: 50%;
   box-shadow: inset 0 10px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.1s;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.hole.active {
+  transform: scale(1.05);
 }
 
 .mole {
@@ -20,7 +107,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom center;
-  transition: bottom 0.2s;
+  transition: bottom 0.2s ease;
 }
 
 .hole.active .mole {
@@ -31,6 +118,7 @@ body {
   bottom: -100%;
 }
 
+/* Animation for mole shaking */
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -52,4 +140,83 @@ body {
 .shake {
   animation: shake 0.3s;
 }
-/* test update */
+
+/* Table styles */
+.min-w-full {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header-row {
+  background-color: #f3f4f6;
+}
+
+.table-cell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.section-heading {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.new-high {
+  color: #d9534f;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
