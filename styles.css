@@ -2,7 +2,7 @@ body {
   font-family: 'Nunito', sans-serif;
   margin: 0;
   background: #ad93e1;
-  color: #333;
+  color: #fbfbfb;
   line-height: 1.6;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .card {
-  background: #fff;
+  background: #cbbee3;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
