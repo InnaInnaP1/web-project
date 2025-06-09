@@ -2,24 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Catch the smiling face!</title>
-    <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="page">
-    <div class="container mx-auto max-w-3xl">
+    <div class="container">
       <header class="section-title">
         <h1 class="game-title">Catch the smiling face!</h1>
-        <p class="game-subtitle">Click on the moles as they appear to score points!</p>
+        <p class="game-subtitle">
+          Click on the moles as they appear to score points!
+        </p>
       </header>
 
       <div class="card mb-6">
         <div class="scoreboard">
-          <div>
+          <div class="score-time-group">
             <div class="score">Score: <span id="score">0</span></div>
             <div class="time">Time: <span id="timer">30</span>s</div>
           </div>
@@ -38,7 +40,7 @@
         <div class="overflow-x-auto">
           <table class="min-w-full">
             <thead>
-              <tr class="bg-gray-100">
+              <tr class="table-header-row">
                 <th class="table-cell">Rank</th>
                 <th class="table-cell">Score</th>
                 <th class="table-cell">Date</th>
@@ -58,9 +60,11 @@
     <div id="modal" class="modal hidden">
       <div class="modal-content">
         <h2 class="section-heading mb-4">Game Over!</h2>
-        <p class="text-lg mb-2">Your score: <span id="result">0</span></p>
+        <p class="text-lg mb-2">
+          Your score: <span id="result">0</span>
+        </p>
         <p id="new-high" class="new-high hidden">New High Score!</p>
-        <div class="flex justify-end">
+        <div class="flex-end">
           <button id="restart" class="btn-restart">Play Again</button>
         </div>
       </div>
